@@ -2,12 +2,10 @@
 
 Настольное **WPF** приложение для создания счетов-фактур: поля поставщика и клиента, позиции, **НДС**, предварительный просмотр в реальном времени, **печать** и **экспорт в PDF**. Строки интерфейса на русском языке.
 
-| | |
+**Стек технологий**
+ .NET 8, WPF, MVVM, [PdfSharp](https://docs.pdfsharp.net/) 6.x, [Handlebars.Net](https://github.com/Handlebars-Net/Handlebars.Net) |
 
-|---|---|
-| **Стек технологий** | .NET 8, WPF, MVVM, [PdfSharp](https://docs.pdfsharp.net/) 6.x, [Handlebars.Net](https://github.com/Handlebars-Net/Handlebars.Net) |
-
-| **Платформа** | Windows (`net8.0-windows`) |
+**Платформа** | Windows (`net8.0-windows`) |
 
 ## Скриншоты
 
@@ -37,22 +35,6 @@ dotnet run
 Или откройте `InvoiceGeneratorPro.sln` в Visual Studio / Rider и запустите проект **InvoiceGeneratorPro**.
 
 **Первая сборка:** MSBuild запускает [Resources/BuildIcon.ps1](Resources/BuildIcon.ps1) (Windows PowerShell 5.1) для генерации `Resources/AppIcon.ico`.
-
-## Публикация (самодостаточный, для рекрутеров)
-
-Из корневого каталога репозитория:
-
-```powershell
-.\publish.ps1
-```
-
-Этот скрипт запускает `dotnet publish` для `win-x64` с параметром `--self-contained true` и записывает результат в `publish/win-x64/`. В `dist/` создается ZIP-архив для прикрепления к релизу GitHub.
-
-Эквивалент вручную:
-
-```bash
-dotnet publish InvoiceGeneratorPro.csproj -c Release -r win-x64 --self-contained true -o publish/win-x64
-```
 
 ## Сторонние лицензии
 
