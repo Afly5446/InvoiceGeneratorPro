@@ -1,0 +1,183 @@
+<Window x:Class="InvoiceGeneratorPro.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:v="clr-namespace:InvoiceGeneratorPro.Validation"
+        mc:Ignorable="d"
+        Title="Invoice Generator Pro"
+        Height="820" Width="1320"
+        MinHeight="680" MinWidth="1080"
+        FontFamily="{StaticResource FontUi}"
+        Background="{StaticResource BrushAppBackground}"
+        WindowStartupLocation="CenterScreen">
+  <DockPanel LastChildFill="True">
+    <!-- Шапка -->
+    <Border DockPanel.Dock="Top" Padding="28,20" Background="{StaticResource BrushHeader}">
+      <Border.Effect>
+        <DropShadowEffect BlurRadius="24" ShadowDepth="4" Opacity="0.2" Direction="270" Color="#1E1B4B"/>
+      </Border.Effect>
+      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <Border Width="40" Height="40" CornerRadius="12" Background="#33FFFFFF" VerticalAlignment="Center">
+          <TextBlock Text="IG" FontWeight="Bold" FontSize="14" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <StackPanel Margin="14,0,0,0" VerticalAlignment="Center">
+          <TextBlock Text="Invoice Generator Pro" Style="{StaticResource HeroTitle}"/>
+          <TextBlock Text="Счета, НДС, предпросмотр и PDF в одном окне" Style="{StaticResource HeroSubtitle}"/>
+        </StackPanel>
+      </StackPanel>
+    </Border>
+
+    <Grid Margin="24,20,24,24">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="440" MinWidth="380"/>
+        <ColumnDefinition Width="16"/>
+        <ColumnDefinition Width="*"/>
+      </Grid.ColumnDefinitions>
+
+      <!-- Форма -->
+      <Border Grid.Column="0" Style="{StaticResource ElevatedCard}" Padding="22">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+          <StackPanel>
+            <TextBlock Text="Данные счёта" Style="{StaticResource PanelTitle}"/>
+
+            <TextBlock Text="ПОСТАВЩИК" Style="{StaticResource SectionTitle}" Margin="0,8,0,0"/>
+            <Label Content="Наименование" Style="{StaticResource FormLabel}" Margin="0,0,0,0"/>
+            <TextBox>
+              <TextBox.Text>
+                <Binding Path="SellerName" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                  <Binding.ValidationRules>
+                    <v:NotEmptyValidationRule FieldName="Поставщик"/>
+                  </Binding.ValidationRules>
+                </Binding>
+              </TextBox.Text>
+            </TextBox>
+
+            <Label Content="Реквизиты и банк" Style="{StaticResource FormLabel}"/>
+            <TextBox Text="{Binding SellerDetails, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="72" TextWrapping="Wrap"/>
+
+            <Grid Margin="0,4,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="160"/>
+              </Grid.ColumnDefinitions>
+              <StackPanel Grid.Column="0">
+                <Label Content="№ счёта" Style="{StaticResource FormLabel}" Margin="0,0,0,0"/>
+                <TextBox>
+                  <TextBox.Text>
+                    <Binding Path="InvoiceNumber" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                      <Binding.ValidationRules>
+                        <v:NotEmptyValidationRule FieldName="Номер счёта"/>
+                      </Binding.ValidationRules>
+                    </Binding>
+                  </TextBox.Text>
+                </TextBox>
+              </StackPanel>
+              <StackPanel Grid.Column="2">
+                <Label Content="Дата" Style="{StaticResource FormLabel}" Margin="0,0,0,0"/>
+                <DatePicker Style="{StaticResource FormDatePicker}" SelectedDate="{Binding IssueDate}"/>
+              </StackPanel>
+            </Grid>
+
+            <Rectangle Height="1" Fill="{StaticResource BrushLine}" Margin="0,12,0,4" RadiusX="1" RadiusY="1"/>
+
+            <TextBlock Text="КЛИЕНТ" Style="{StaticResource SectionTitle}" Margin="0,8,0,0"/>
+            <Label Content="Наименование" Style="{StaticResource FormLabel}" Margin="0,0,0,0"/>
+            <TextBox>
+              <TextBox.Text>
+                <Binding Path="ClientName" UpdateSourceTrigger="PropertyChanged" ValidatesOnDataErrors="True">
+                  <Binding.ValidationRules>
+                    <v:NotEmptyValidationRule FieldName="Клиент"/>
+                  </Binding.ValidationRules>
+                </Binding>
+              </TextBox.Text>
+            </TextBox>
+
+            <Label Content="Адрес" Style="{StaticResource FormLabel}"/>
+            <TextBox Text="{Binding ClientAddress, UpdateSourceTrigger=PropertyChanged}" AcceptsReturn="True" Height="60" TextWrapping="Wrap"/>
+
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="12"/>
+                <ColumnDefinition Width="140"/>
+              </Grid.ColumnDefinitions>
+              <StackPanel Grid.Column="0">
+                <Label Content="ИНН / КПП" Style="{StaticResource FormLabel}" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding ClientTaxId, UpdateSourceTrigger=PropertyChanged}"/>
+              </StackPanel>
+              <StackPanel Grid.Column="2">
+                <Label Content="НДС, %" Style="{StaticResource FormLabel}" Margin="0,0,0,0"/>
+                <TextBox Text="{Binding VatPercentText, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}"/>
+              </StackPanel>
+            </Grid>
+
+            <Rectangle Height="1" Fill="{StaticResource BrushLine}" Margin="0,16,0,8" RadiusX="1" RadiusY="1"/>
+
+            <DockPanel LastChildFill="True" Margin="0,0,0,10">
+              <TextBlock DockPanel.Dock="Left" Text="Позиции" VerticalAlignment="Center" FontWeight="SemiBold" FontSize="14" Foreground="{StaticResource BrushInk}"/>
+              <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Content="Добавить" Command="{Binding AddLineCommand}" Style="{StaticResource SecondaryButton}" Padding="14,8" Margin="0,0,8,0"/>
+                <Button Content="Удалить" Command="{Binding RemoveLineCommand}" Style="{StaticResource DangerOutlineButton}" Padding="14,8"
+                        CommandParameter="{Binding ElementName=LinesGrid, Path=SelectedItem}"/>
+              </StackPanel>
+            </DockPanel>
+
+            <Border CornerRadius="12" BorderBrush="{StaticResource BrushLine}" BorderThickness="1" Background="#FAFBFF" ClipToBounds="True">
+              <DataGrid x:Name="LinesGrid"
+                        Style="{StaticResource InvoiceDataGrid}"
+                        ColumnHeaderStyle="{StaticResource InvoiceDataGridColumnHeader}"
+                        CellStyle="{StaticResource InvoiceDataGridCell}"
+                        ItemsSource="{Binding Lines}"
+                        AutoGenerateColumns="False"
+                        CanUserAddRows="False"
+                        HeadersVisibility="Column"
+                        Height="220">
+                <DataGrid.Columns>
+                  <DataGridTextColumn Header="Наименование" Binding="{Binding Description, UpdateSourceTrigger=PropertyChanged}" Width="*"/>
+                  <DataGridTextColumn Header="Кол-во" Binding="{Binding Quantity, UpdateSourceTrigger=PropertyChanged}" Width="72"/>
+                  <DataGridTextColumn Header="Цена" Binding="{Binding UnitPrice, UpdateSourceTrigger=PropertyChanged}" Width="88"/>
+                  <DataGridTextColumn Header="Сумма" Binding="{Binding LineTotal, Mode=OneWay}" Width="92" IsReadOnly="True"/>
+                </DataGrid.Columns>
+              </DataGrid>
+            </Border>
+
+            <UniformGrid Columns="3" Margin="0,20,0,0">
+              <Button Content="Обновить" Command="{Binding RefreshPreviewCommand}" Style="{StaticResource SecondaryButton}" Margin="0,0,6,0"/>
+              <Button Content="Печать…" Command="{Binding PrintCommand}" Style="{StaticResource SecondaryButton}" Margin="3,0"/>
+              <Button Content="PDF…" Command="{Binding ExportPdfCommand}" Style="{StaticResource PrimaryButton}" Margin="6,0,0,0"/>
+            </UniformGrid>
+          </StackPanel>
+        </ScrollViewer>
+      </Border>
+
+      <GridSplitter Grid.Column="1" Width="16" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+      <!-- Предпросмотр -->
+      <Border Grid.Column="2" Style="{StaticResource ElevatedCard}" Padding="0">
+        <DockPanel>
+          <Border DockPanel.Dock="Top" Background="#FAFBFF" CornerRadius="16,16,0,0" BorderBrush="#E8EDF5" BorderThickness="0,0,0,1" Padding="20,16">
+            <TextBlock Text="Предпросмотр" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource BrushInk}" VerticalAlignment="Center"/>
+          </Border>
+
+          <TabControl Margin="12,8,12,12" Style="{StaticResource PreviewTabControl}">
+            <TabControl.Resources>
+              <Style TargetType="TabItem" BasedOn="{StaticResource PreviewTabItem}"/>
+            </TabControl.Resources>
+            <TabItem Header="Счёт">
+              <Border CornerRadius="12" BorderBrush="{StaticResource BrushLine}" BorderThickness="1" Background="White" Margin="0,8,0,0" ClipToBounds="True">
+                <FlowDocumentScrollViewer Document="{Binding PreviewDocument}" VerticalScrollBarVisibility="Auto" Padding="4" Zoom="88"/>
+              </Border>
+            </TabItem>
+            <TabItem Header="Сводка">
+              <Border CornerRadius="12" BorderBrush="{StaticResource BrushLine}" BorderThickness="1" Background="#FAFAFA" Margin="0,8,0,0" ClipToBounds="True">
+                <DocumentViewer Document="{Binding FixedPreviewDocument}" BorderThickness="0" Background="Transparent"/>
+              </Border>
+            </TabItem>
+          </TabControl>
+        </DockPanel>
+      </Border>
+    </Grid>
+  </DockPanel>
+</Window>

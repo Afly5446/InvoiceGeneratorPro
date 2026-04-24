@@ -1,0 +1,8 @@
+Поставщик: {{SellerName}}
+{{SellerDetails}}
+
+Покупатель: {{ClientName}}
+{{#if ClientAddress}}Адрес: {{ClientAddress}}{{/if}}
+{{#if ClientTaxId}}ИНН/КПП: {{ClientTaxId}}{{/if}}
+
+Счёт № {{InvoiceNumber}} от {{IssueDateDisplay}} (итого с НДС: {{TotalDisplay}})

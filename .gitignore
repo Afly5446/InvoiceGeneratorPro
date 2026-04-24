@@ -1,0 +1,47 @@
+## Build results
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+
+## Publish output (regenerate with publish.ps1)
+publish/
+dist/
+
+## Visual Studio / VS Code
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+.vscode/*
+!.vscode/extensions.json
+
+## Rider
+.idea/
+
+## NuGet
+*.nupkg
+**/packages/*
+!**/packages/build/
+
+## Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+## User-specific
+*.rsuser
+
+## Test / coverage
+[Tt]est[Rr]esult*/
+*.trx
+Coverage*/
+
+## Misc
+*.cache
+*.log

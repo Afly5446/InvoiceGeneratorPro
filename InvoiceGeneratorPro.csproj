@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <RootNamespace>InvoiceGeneratorPro</RootNamespace>
+    <AssemblyName>InvoiceGeneratorPro</AssemblyName>
+    <ApplicationTitle>Invoice Generator Pro</ApplicationTitle>
+    <ApplicationIcon>Resources\AppIcon.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Handlebars.Net" Version="2.1.6" />
+    <PackageReference Include="PdfSharp" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Templates\invoice_header.hbs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="Resources\BuildIcon.ps1" />
+    <None Include="Resources\GenerateReadmeScreenshots.ps1" />
+  </ItemGroup>
+
+  <Target Name="BuildAppIcon" BeforeTargets="PrepareForBuild">
+    <!-- Явный \ после $(MSBuildProjectDirectory): иначе склеивается InvoiceGeneratorProResources -->
+    <!-- Windows PowerShell 5.1: в pwsh 7+ System.Drawing / иконки часто падают -->
+    <Exec Command="&quot;$(SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe&quot; -NoProfile -ExecutionPolicy Bypass -File &quot;$(MSBuildProjectDirectory)\Resources\BuildIcon.ps1&quot;" />
+  </Target>
+
+  <Target Name="CopyAppIconToOutput" AfterTargets="Build">
+    <Copy SourceFiles="$(MSBuildProjectDirectory)\Resources\AppIcon.ico"
+          DestinationFiles="$(TargetDir)AppIcon.ico"
+          SkipUnchangedFiles="true"
+          Condition="Exists('$(MSBuildProjectDirectory)\Resources\AppIcon.ico')" />
+  </Target>
+
+</Project>
